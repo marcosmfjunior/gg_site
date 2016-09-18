@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="assets/img/favicon.ico">
+     <title>Garden Grill - Novidades</title>
+    <!-- Bootstrap core CSS -->
+    <link href="assets/css/bootstrap.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Lato:300' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link href="assets/css/ionicons.min.css" rel="stylesheet">
+    <link href="assets/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="assets/css/sweetalert.css">
+    
+    <script src="assets/js/sweetalert.min.js"></script> 
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div id="sep">
+      <a href="index.html"><img class="miniatura-logo" src="assets/img/logo.png"></a>
+
+      <div class="container">
+        <div class="row centered">
+          <div class="col-md-8 col-md-offset-2">
+            <div class="titulo">Muita coisa boa está por vir no Garden</div>
+            <div class="sub-titulo">Seja o primeiro a saber das novidades</div><br>
+            <form id="reg-form" >
+              <input type="text" required="true" id="nome" placeholder="nome" size="30"><br>
+              <input required="true" id="email" placeholder="email" size="30"><br>
+              <button id="btnSubmit" class="btn btn-conf btn-green" type="submit">Enviar</button>
+            </form>
+          </div><!--/col-md-8-->
+        </div>
+      </div>
+    </div><!--/sep-->
+
+ 
+<script type="text/javascript">
+$(document).on('submit', '#reg-form', function(){
+    var filter = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+    if(!filter.test(document.getElementById("email").value))
+      alert('Por favor, digite o email corretamente');
+    else{
+      var nome = $("#nome").val();    
+      var email = $("#email").val();  
+/*
+      $.post("https://gardengrill.heroku.com/news",{name: nome, email: email}, function(data){
+        console.log(data);
+      })*/
+      $.ajax({
+          type: "POST",
+          url: "http://gardengrill.herokuapp.com/news",
+          data: {
+              name   : nome,
+              email : email
+          },
+          success: function (data) {
+            console.log(data);
+            swal("Novidades logo virão!","Fique atento ao seu email", "success");
+          },
+          error: function (err){
+            swal("Ops, não foi possível te adicionar na lista de novidade","Tente novamente, mais tarde", "error");
+            console.log(err) ;           
+          }
+    });
+    return false;
+  }
+})
+</script>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/retina-1.1.0.js"></script>
+  </body>
+</html>
